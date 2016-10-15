@@ -23,6 +23,7 @@ var (
 
 func main() {
 	http.HandleFunc("/", homepage)
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.ListenAndServe(":9000", nil)
 }
 
@@ -36,7 +37,7 @@ func homepage(w http.ResponseWriter, req *http.Request) {
 	}
 	r := bytes.NewReader(buffer.Bytes())
 	//img, _ := jpeg.Decode(r)
-	file, err := os.Create("img.jpg")
+	file, err := os.Create("/static/img.jpg")
 	if err != nil {
 		log.Fatal(err)
 	}
