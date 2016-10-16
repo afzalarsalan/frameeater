@@ -22,20 +22,21 @@ type imageResponse struct {
 	ImageURL string `json:"imageurl"`
 }
 
+var buffer bytes.Buffer
+
 func main() {
+	cmd := exec.Command("ffmpeg", "-i", filename, "-s", fmt.Sprintf("%dx%d", width, height), "-vf", "singlejpeg", "fps=2", "-")
+	cmd.Stdout = &buffer
+	err := cmd.Run()
+	if err != nil {
+		panic("could not get frame" + err.Error())
+	}
 	http.HandleFunc("/", homepage)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.ListenAndServe(":9000", nil)
 }
 
 func homepage(w http.ResponseWriter, req *http.Request) {
-	cmd := exec.Command("ffmpeg", "-i", filename, "-vframes", "1", "-s", fmt.Sprintf("%dx%d", width, height), "-f", "singlejpeg", "-")
-	var buffer bytes.Buffer
-	cmd.Stdout = &buffer
-	err := cmd.Run()
-	if err != nil {
-		panic("could not get frame" + err.Error())
-	}
 	r := bytes.NewReader(buffer.Bytes())
 	//img, _ := jpeg.Decode(r)
 	file, err := os.Create("static/img.jpg")
