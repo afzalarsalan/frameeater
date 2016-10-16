@@ -25,7 +25,7 @@ type imageResponse struct {
 var buffer bytes.Buffer
 
 func main() {
-	cmd := exec.Command("ffmpeg", "-i", filename, "-s", fmt.Sprintf("%dx%d", width, height), "-vf", "singlejpeg", "fps=2", "-")
+	cmd := exec.Command("ffmpeg", "-i", filename, "-s", fmt.Sprintf("%dx%d", width, height), "-r 1", "-f", "singlejpeg", "-")
 	cmd.Stdout = &buffer
 	err := cmd.Run()
 	if err != nil {
