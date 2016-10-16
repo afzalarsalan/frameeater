@@ -28,9 +28,9 @@ func main() {
 	cmd := exec.Command("ffmpeg", "-i", filename, "-s", fmt.Sprintf("%dx%d", width, height), "-r 1", "-f", "singlejpeg", "-")
 	cmd.Stdout = &buffer
 	err := cmd.Run()
-	if err != nil {
+	/*if err != nil {
 		panic("could not get frame" + err.Error())
-	}
+	}*/
 	http.HandleFunc("/", homepage)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.ListenAndServe(":9000", nil)
