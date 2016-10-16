@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -10,16 +11,16 @@ import (
 	"os/exec"
 )
 
-const (
-	DEFAULT_PORT = "9000"
-)
-
 var (
 	port     string
 	filename = "https://stream-alfa.dropcam.com:443/nexus_aac/b8fbe1918dd5470e913d5780445bc66b/playlist.m3u8"
 	width    = 1920
 	height   = 1080
 )
+
+type imageResponse struct {
+	imageURL string
+}
 
 func main() {
 	http.HandleFunc("/", homepage)
@@ -46,5 +47,9 @@ func homepage(w http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 	file.Close()
-	fmt.Fprintf(w, "we made it")
+	resp := &imageResponse{
+		imageURL: "13.84.145.193:9090/static/img.jpg",
+	}
+	respJSON, _ := json.Marshal(resp)
+	fmt.Fprintf(w, string(respJSON))
 }
