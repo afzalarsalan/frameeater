@@ -1,13 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
-	"log"
 	"net/http"
-	"os"
 	"os/exec"
 )
 
@@ -29,14 +25,14 @@ func main() {
 }
 
 func homepage(w http.ResponseWriter, req *http.Request) {
-	cmd := exec.Command("ffmpeg", "-i", filename, "-vframes", "1", "-s", fmt.Sprintf("%dx%d", width, height), "-f", "singlejpeg", "-")
-	var buffer bytes.Buffer
-	cmd.Stdout = &buffer
+	cmd := exec.Command("ffmpeg", "-i", filename, "-vframes", "1", "-s", fmt.Sprintf("%dx%d", width, height), "img.jpg")
+	//var buffer bytes.Buffer
+	//cmd.Stdout = &buffer
 	err := cmd.Run()
 	if err != nil {
 		panic("could not get frame" + err.Error())
 	}
-	r := bytes.NewReader(buffer.Bytes())
+	/*r := bytes.NewReader(buffer.Bytes())
 	//img, _ := jpeg.Decode(r)
 	file, err := os.Create("static/img.jpg")
 	if err != nil {
@@ -46,7 +42,7 @@ func homepage(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	file.Close()
+	file.Close()*/
 	resp := &imageResponse{ImageURL: "13.84.145.193:9000/static/img.jpg"}
 	json.NewEncoder(w).Encode(resp)
 }
