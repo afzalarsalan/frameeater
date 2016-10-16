@@ -21,7 +21,7 @@ type imageResponse struct {
 func main() {
 	http.HandleFunc("/", homepage)
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	http.ListenAndServe(":9000", nil)
+	http.ListenAndServe(":9001", nil)
 }
 
 func homepage(w http.ResponseWriter, req *http.Request) {
