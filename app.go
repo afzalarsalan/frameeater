@@ -19,7 +19,7 @@ var (
 )
 
 type imageResponse struct {
-	imageURL string
+	ImageURL string `json:"imageurl"`
 }
 
 func main() {
@@ -47,8 +47,6 @@ func homepage(w http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 	file.Close()
-	resp := &imageResponse{imageURL: "13.84.145.193:9090/static/img.jpg"}
-	respJSON, _ := json.Marshal(resp)
-	fmt.Println(respJSON)
-	fmt.Fprintf(w, string(respJSON))
+	resp := &imageResponse{ImageURL: "13.84.145.193:9090/static/img.jpg"}
+	json.NewEncoder(w).Encode(resp)
 }
