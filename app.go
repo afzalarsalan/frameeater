@@ -38,7 +38,7 @@ func homepage(w http.ResponseWriter, req *http.Request) {
 	}
 	r := bytes.NewReader(buffer.Bytes())
 	//img, _ := jpeg.Decode(r)
-	file, err := os.Create("/static/img.jpg")
+	file, err := os.Create("static/img.jpg")
 	if err != nil {
 		log.Fatal(err)
 	}
