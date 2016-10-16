@@ -47,9 +47,7 @@ func homepage(w http.ResponseWriter, req *http.Request) {
 		log.Fatal(err)
 	}
 	file.Close()
-	resp := &imageResponse{
-		imageURL: "13.84.145.193:9090/static/img.jpg",
-	}
+	resp := &imageResponse{imageURL: "13.84.145.193:9090/static/img.jpg"}
 	respJSON, _ := json.Marshal(resp)
 	fmt.Fprintf(w, string(respJSON))
 }
